@@ -284,11 +284,12 @@ public class Automaton implements Serializable, Cloneable {
    *
    * @return set of {@link State} objects
    */
-  public Set<State> getStates() {
+  public LinkedHashSet<State> getStates() {
+    // XXX: LinkedHashSet can be changed to SequencedSet for Java 21
     expandSingleton();
-    Set<State> visited;
+    LinkedHashSet<State> visited;
     if (isDebug()) visited = new LinkedHashSet<State>();
-    else visited = new HashSet<State>();
+    else visited = new LinkedHashSet<State>();
     LinkedList<State> worklist = new LinkedList<State>();
     worklist.add(initial);
     visited.add(initial);

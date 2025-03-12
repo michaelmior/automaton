@@ -8,6 +8,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 ## Added
 - Added `removeTransition` method to `State`
+- Added `mergeStates` method to `SpecialOperations`
+
+## Changed
+- `Automaton.getStates` now returns `LinkedHashSet`
 
 ## [1.13] 2025-03-10
 ### Changed

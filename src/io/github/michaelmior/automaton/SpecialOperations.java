@@ -32,6 +32,8 @@ package io.github.michaelmior.automaton;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
@@ -380,6 +382,94 @@ public final class SpecialOperations {
       a.checkMinimizeAlways();
       return a;
     }
+  }
+
+  public static Automaton mergeStates(Automaton a, Set<State> states) {
+    // Track which states we want to merge
+    List<Integer> stateIndexes = new LinkedList<Integer>();
+    for (State s : states) {
+      int i = 0;
+      for (State s2 : a.getStates()) {
+        if (s.id == s2.id) {
+          stateIndexes.add(i);
+        }
+        i++;
+      }
+    }
+
+    // Figure out the new state IDs
+    a = a.cloneIfRequired();
+    List<State> afterStates = new LinkedList<State>(a.getStates());
+    Set<Integer> mergeIds = new HashSet<Integer>();
+    for (int i : stateIndexes) {
+      mergeIds.add(afterStates.get(i).id);
+    }
+
+    State mergedState = new State();
+    Set<State> explored = new HashSet<State>();
+
+    // Start a queue of states to explore
+    LinkedList<State> worklist = new LinkedList<State>();
+    worklist.add(a.getInitialState());
+
+    while (!worklist.isEmpty()) {
+      // Check for a new state to explore
+      State s = worklist.removeFirst();
+      if (explored.contains(s)) continue;
+
+      // Mark the merge state as an accept state if needed
+      if (mergeIds.contains(s.id) && s.isAccept()) {
+        mergedState.setAccept(true);
+      }
+
+      Set<Transition> toAdd = new HashSet<Transition>();
+      Set<Transition> toRemove = new HashSet<Transition>();
+      for (Transition t : s.transitions) {
+        // Add this state to those to explore
+        worklist.add(t.to);
+
+        if (mergeIds.contains(s.id)) {
+          toRemove.add(t);
+          if (mergeIds.contains(t.to.id)) {
+            // Add a self transition if needed
+            mergedState.addTransition(new Transition(t.getMin(), t.getMax(), mergedState));
+          } else {
+            // Otherwise copy this transition
+            mergedState.addTransition(t);
+          }
+        }
+
+        // Move this edge to the merged state
+        if (mergeIds.contains(t.to.id)) {
+          toRemove.add(t);
+          toAdd.add(new Transition(t.getMin(), t.getMax(), mergedState));
+        }
+      }
+
+      // Remove all transitions to merged states
+      for (Transition t : toRemove) {
+        s.removeTransition(t);
+      }
+
+      // Add all new transitions to the merged state
+      for (Transition t : toAdd) {
+        s.addTransition(t);
+      }
+
+      // Mark the state as explored
+      explored.add(s);
+    }
+
+    // Update the initial state if needed
+    if (mergeIds.contains(a.getInitialState().id)) {
+      a.setInitialState(mergedState);
+    }
+
+    a.deterministic = false;
+    a.removeDeadTransitions();
+    a.checkMinimizeAlways();
+
+    return a;
   }
 
   /** Returns true if the language of this automaton is finite. */
