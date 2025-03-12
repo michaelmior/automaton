@@ -83,6 +83,15 @@ public class State implements Serializable, Comparable<State> {
   }
 
   /**
+   * Removes an outgoing transition.
+   *
+   * @param t transition
+   */
+  public void removeTransition(Transition t) {
+    transitions.remove(t);
+  }
+
+  /**
    * Sets acceptance for this state.
    *
    * @param accept if true, this state is an accept state
