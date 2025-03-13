@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## Added
 - Added `removeTransition` method to `State`
 - Added `mergeStates` method to `SpecialOperations`
+- Added the options to show IDs in dot output
 
 ## Changed
 - `Automaton.getStates` now returns `LinkedHashSet`

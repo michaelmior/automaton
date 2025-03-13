@@ -561,16 +561,26 @@ public class Automaton implements Serializable, Cloneable {
    * representation of this automaton.
    */
   public String toDot() {
+    return toDot(false);
+  }
+
+  /**
+   * Returns <a href="http://www.research.att.com/sw/tools/graphviz/" target="_top">Graphviz Dot</a>
+   * representation of this automaton.
+   *
+   * @param includeId whether to include the ID of the state
+   */
+  public String toDot(boolean includeId) {
     StringBuilder b = new StringBuilder("digraph Automaton {\n");
     b.append("  rankdir = LR;\n");
     Set<State> states = getStates();
     setStateNumbers(states);
     for (State s : states) {
       b.append("  ").append(s.number);
-      if (s.accept) b.append(" [shape=doublecircle,label=\"\"];\n");
-      else b.append(" [shape=circle,label=\"\"];\n");
+      if (s.accept) b.append(" [shape=doublecircle,label=\"" + (includeId ? s.id : "") + "\"];\n");
+      else b.append(" [shape=circle,label=\"" + (includeId ? s.id : "") + "\"];\n");
       if (s == initial) {
-        b.append("  initial [shape=plaintext,label=\"\"];\n");
+        b.append("  initial [shape=plaintext,label=\"" + (includeId ? s.id : "") + "\"];\n");
         b.append("  initial -> ").append(s.number).append("\n");
       }
       for (Transition t : s.transitions) {
