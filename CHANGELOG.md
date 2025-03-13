@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## [1.14] 2025-03-13
 ## Added
 - Added `removeTransition` method to `State`
 - Added `mergeStates` method to `SpecialOperations`
@@ -294,7 +296,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - tableized run method in `RunAutomaton`
 
-[Unreleased]: https://github.com/michaelmior/automaton/compare/v1.13...HEAD
+[Unreleased]: https://github.com/michaelmior/automaton/compare/v1.14...HEAD
+[1.14]: https://github.com/michaelmior/automaton/compare/v1.13...v1.14
 [1.13]: https://github.com/michaelmior/automaton/compare/v1.12-4...v1.13
 [1.12-4]: https://github.com/michaelmior/automaton/compare/v1.12-3...v1.12-4
 [1.12-3]: https://github.com/michaelmior/automaton/compare/v1.12-2...v1.12-3
