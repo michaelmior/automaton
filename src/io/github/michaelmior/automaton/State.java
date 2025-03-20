@@ -74,6 +74,15 @@ public class State implements Serializable, Comparable<State> {
   }
 
   /**
+   * Returns the id of this state.
+   *
+   * @return int id of this state
+   */
+  public int getId() {
+    return id;
+  }
+
+  /**
    * Adds an outgoing transition.
    *
    * @param t transition
