@@ -18,7 +18,7 @@ jobs:
     strategy:
       matrix:
         # test against latest update of each LTS Java version:
-        java: [ 8, 11, 17 ]
+        java: [ 11, 17 ]
         # test against major operating systems
         os: [ubuntu-latest, windows-latest, macos-latest]
     name: Java ${{ matrix.java }} on ${{ matrix.os }}
@@ -31,7 +31,6 @@ jobs:
           distribution: 'adopt'
           cache: 'maven'
       - name: Check formatting
-        if: ${{ matrix.java != 8 }} # Spotless does not support Java 8
         run: mvn -B spotless:check
       - name: Run tests
         run: mvn -B test
