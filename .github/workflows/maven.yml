@@ -35,7 +35,7 @@ jobs:
       - name: Run tests
         run: mvn -B test
       - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v5
+        uses: codecov/codecov-action@v6
         if: ${{ matrix.os == 'ubuntu-latest' && matrix.java == 17 }}
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
