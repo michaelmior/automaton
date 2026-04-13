@@ -22,7 +22,7 @@ jobs:
         run: mvn site
       - name: Upload static files as an artifact
         id: deployment
-        uses: actions/upload-pages-artifact@v4
+        uses: actions/upload-pages-artifact@v5
         with:
           path: target/site
 
